@@ -1,23 +1,23 @@
-# 1. Herança de Template: 
-# Define que este arquivo herda a estrutura do 'base.html'.
+{# 1. Herança de Template: #}
+{# Define que este arquivo herda a estrutura do 'base.html'. #}
 {% extends 'base.html' %}
 
-# 2. Carregar Bibliotecas de Tags:
-# Habilita o uso das tags do conjunto 'static' (necessário para {% static %}).
+{# 2. Carregar Bibliotecas de Tags: #}
+{# Habilita o uso das tags do conjunto 'static' (necessário para { static }). #}
 {% load static %}
 
-# 3. Bloco de Título:
-# Define o conteúdo da tag <title> no 'base.html'.
+{# 3. Bloco de Título: #}
+{# Define o conteúdo da tag <title> no 'base.html'. #}
 {% block title %}Dashboard - Colaboradores{% endblock %}
 
-# 4. Bloco de Conteúdo Principal:
-# Define o conteúdo principal desta página, que será inserido no 'base.html'.
+{# 4. Bloco de Conteúdo Principal: #}
+{# Define o conteúdo principal desta página, que será inserido no 'base.html'. #}
 {% block content %}
 
     <div class="page-header">
         <h1>Colaboradores</h1>
-        # 5. Gerador de URL Dinâmico:
-        # Gera a URL correta baseada no nome 'cadastro' definido em urls.py.
+        {# 5. Gerador de URL Dinâmico: #}
+        {# Gera a URL correta baseada no nome 'cadastro' definido em urls.py. #}
         <a href="{% url 'cadastro' %}" class="btn-submit">
             <svg class="icon"><use href="#icon-plus-circle"></use></svg>
             Novo Colaborador
@@ -27,8 +27,8 @@
     <div class="stats-grid">
         <div class="stat-card">
             <h4>Total de Colaboradores</h4>
-            # 6. Exibir Variáveis:
-            # Mostra o valor da variável 'total_colaboradores' enviada pela view.
+            {# 6. Exibir Variáveis: #}
+            {# Mostra o valor da variável 'total_colaboradores' enviada pela view. #}
             <span class="value">{{ total_colaboradores }}</span>
         </div>
         <div class="stat-card">
@@ -45,9 +45,9 @@
         <h2>Lista de Colaboradores</h2>
 
         <div class="search-bar">
-            # Formulário GET para enviar o parâmetro de pesquisa 'q' na URL.
+            {# Formulário GET para enviar o parâmetro de pesquisa 'q' na URL. #}
             <form method="GET">
-                # O 'value' é preenchido com a variável 'search_query' da view.
+                {# O 'value' é preenchido com a variável 'search_query' da view. #}
                 <input type="text" name="q" placeholder="Pesquisar por nome, CPF ou função..." value="{{ search_query }}">
             </form>
         </div>
@@ -64,43 +64,43 @@
                     </tr>
                 </thead>
                 <tbody>
-                    # 7. Loop (Laço de Repetição):
-                    # Itera sobre cada 'colab' na lista 'colaboradores_lista' enviada pela view.
-                    # O HTML interno será repetido para cada colaborador.
+                    {# 7. Loop (Laço de Repetição): #}
+                    {# Itera sobre cada 'colab' na lista 'colaboradores_lista' enviada pela view. #}
+                    {# O HTML interno será repetido para cada colaborador. #}
                     {% for colab in colaboradores_lista %}
                     <tr>
-                        # Exibe o atributo 'nome_completo' do objeto 'colab' atual.
+                        {# Exibe o atributo 'nome_completo' do objeto 'colab' atual. #}
                         <td>{{ colab.nome_completo }}</td>
                         <td>{{ colab.cpf }}</td>
                         <td>{{ colab.funcao }}</td>
                         <td>{{ colab.status }}</td>
                         <td class="actions">
-                            # 8. URL com Parâmetro:
-                            # Gera a URL para 'colaborador_editar', passando o 'id' do 'colab' atual.
+                            {# 8. URL com Parâmetro: #}
+                            {# Gera a URL para 'colaborador_editar', passando o 'id' do 'colab' atual. #}
                             <a href="{% url 'colaborador_editar' colab.id %}">Editar</a>
 
                             <a href="{% url 'colaborador_excluir' colab.id %}"
                                onclick="return confirm('Tem certeza que deseja excluir {{ colab.nome_completo|escapejs }}?');"
                                style="color: #E53E3E;">
-                               # 9. Filtro |escapejs:
-                               # Formata 'colab.nome_completo' de forma segura para JavaScript.
+                               {# 9. Filtro |escapejs: #}
+                               {# Formata 'colab.nome_completo' de forma segura para JavaScript. #}
                                Excluir
                             </a>
                         </td>
                     </tr>
-                    # 10. Condição de Loop Vazio:
-                    # O conteúdo abaixo só aparece se 'colaboradores_lista' estiver vazia.
+                    {# 10. Condição de Loop Vazio: #}
+                    {# O conteúdo abaixo só aparece se 'colaboradores_lista' estiver vazia. #}
                     {% empty %}
                     <tr>
                         <td colspan="5" style="padding: 16px; text-align: center; color: #718096;">
                             Nenhum colaborador encontrado.
                         </td>
                     </tr>
-                    # 11. Fim do Loop: Marca o final do bloco {% for %}.
+                    {# 11. Fim do Loop: Marca o final do bloco { for }. #}
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-# 12. Fim do Bloco de Conteúdo: Marca o final do bloco {% block content %}.
+{# 12. Fim do Bloco de Conteúdo: Marca o final do bloco { block content }. #}
 {% endblock %}

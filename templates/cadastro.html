@@ -1,25 +1,25 @@
-# 1. Herança de Template: 
-# Define que este arquivo herda a estrutura do 'base.html'.
+{# 1. Herança de Template: #}
+{# Define que este arquivo herda a estrutura do 'base.html'. #}
 {% extends 'base.html' %}
 
-# 2. Carregar Bibliotecas de Tags:
-# Habilita o uso das tags 'static' (necessário para {% static %}).
+{# 2. Carregar Bibliotecas de Tags: #}
+{# Habilita o uso das tags 'static' (necessário para { static }). #}
 {% load static %}
 
-# 3. Bloco de Título:
-# Define o título da página. Usa uma tag {% if %} para mudar o texto
-# dependendo se a variável 'colaborador' (enviada pela view de edição) existe.
+{# 3. Bloco de Título: #}
+{# Define o título da página. Usa uma tag { if } para mudar o texto #}
+{# dependendo se a variável 'colaborador' (enviada pela view de edição) existe. #}
 {% block title %}{% if colaborador %}Editar{% else %}Cadastrar{% endif %} Colaborador{% endblock %}
 
-# 4. Bloco de Conteúdo Principal:
-# Define o conteúdo principal desta página (o formulário).
+{# 4. Bloco de Conteúdo Principal: #}
+{# Define o conteúdo principal desta página (o formulário). #}
 {% block content %}
 
     <div class="page-header">
-        # Tag {% if %}: Condicional simples. Verifica se a variável 'colaborador' existe.
-        # Se existir (modo Edição), mostra "Editar". Se não (modo Cadastro), mostra "Cadastrar".
+        {# Tag { if }: Condicional simples. Verifica se a variável 'colaborador' existe. #}
+        {# Se existir (modo Edição), mostra "Editar". Se não (modo Cadastro), mostra "Cadastrar". #}
         <h1>{% if colaborador %}Editar{% else %}Cadastrar{% endif %} Colaborador</h1>
-        # Tag {% url %}: Gera a URL para a view com o nome 'index'.
+        {# Tag { url }: Gera a URL para a view com o nome 'index'. #}
         <a href="{% url 'index' %}" class="btn-secondary">
             <svg class="icon"><use href="#icon-arrow-left"></use></svg>
             Voltar para a lista
@@ -29,41 +29,53 @@
     <div class="form-card">
         <div class="form-header">
             <svg class="icon-large"><use href="#icon-plus-circle"></use></svg>
-            # Condicional {% if %} para mudar o título do card.
+            {# Condicional { if } para mudar o título do card. #}
             <h2>{% if colaborador %}Dados do Colaborador{% else %}Novo Colaborador{% endif %}</h2>
         </div>
         
+        {# Bloco para exibir as mensagens de erro (ex: CPF duplicado) #}
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <div id="alert-success" style="display: none;">Colaborador salvo com sucesso!</div> 
 
-        # Formulário HTML padrão, método POST para enviar dados.
+        {# Formulário HTML padrão, método POST para enviar dados. #}
         <form id="colaborador-form" method="POST">
-            # 5. Tag CSRF Token: ESSENCIAL para segurança em formulários POST.
-            # O Django usa isso para prevenir ataques Cross-Site Request Forgery.
-            # Ele insere um campo <input type="hidden"> com um token único.
+            {# 5. Tag CSRF Token: ESSENCIAL para segurança em formulários POST. #}
             {% csrf_token %} 
             
             <div class="form-group">
                 <label for="nome">Nome Completo <span class="required">*</span></label>
-                # Input com valor pré-preenchido:
-                # O 'value' usa a variável {{ colaborador.nome_completo }}.
-                # O Filtro |default:'' garante que, se 'colaborador' não existir
-                # (modo Cadastro), o valor será uma string vazia, evitando erros.
+                {# Input com valor pré-preenchido: #}
+                
+                {# --- LÓGICA CORRIGIDA --- #}
                 <input type="text" id="nome" name="nome_completo" placeholder="Digite o nome completo" 
-                       value="{{ colaborador.nome_completo|default:'' }}" required>
+                       value="{% if form_data %}{{ form_data.nome_completo }}{% elif colaborador %}{{ colaborador.nome_completo }}{% endif %}" required>
             </div>
 
             <div class="form-group">
                 <label for="cpf">CPF <span class="required">*</span></label>
-                # Preenche o valor do CPF, usando |default:'' se for cadastro novo.
+                {# Preenche o valor do CPF... #}
+                
+                {# --- LÓGICA CORRIGIDA --- #}
                 <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" 
-                       value="{{ colaborador.cpf|default:'' }}" required maxlength="14">
+                       value="{% if form_data %}{{ form_data.cpf }}{% elif colaborador %}{{ colaborador.cpf }}{% endif %}" required maxlength="14">
             </div>
 
             <div class="form-group">
                 <label for="funcao">Função <span class="required">*</span></label>
-                # Preenche o valor da função, usando |default:'' se for cadastro novo.
+                {# Preenche o valor da função... #}
+                
+                {# --- LÓGICA CORRIGIDA --- #}
                 <input type="text" id="funcao" name="funcao" list="lista-funcoes" placeholder="Selecione ou digite a função" 
-                       value="{{ colaborador.funcao|default:'' }}" required>
+                       value="{% if form_data %}{{ form_data.funcao }}{% elif colaborador %}{{ colaborador.funcao }}{% endif %}" required>
                 <datalist id="lista-funcoes">
                     <option value="Almoxarife">
                     <option value="Pedreiro">
@@ -78,12 +90,28 @@
             <div class="form-group">
                 <label for="status">Status <span class="required">*</span></label>
                 <select id="status" name="status" required>
-                    # Condicional {% if %} dentro da tag <option>:
-                    # Verifica se o status do 'colaborador' atual é 'Ativo'.
-                    # Se for, adiciona o atributo 'selected' a esta opção.
-                    <option value="Ativo" {% if colaborador.status == 'Ativo' %}selected{% endif %}>Ativo</option>
-                    # Faz o mesmo para o status 'Inativo'.
-                    <option value="Inativo" {% if colaborador.status == 'Inativo' %}selected{% endif %}>Inativo</option>
+                    {# Condicional { if } dentro da tag <option>: #}
+
+                    {# --- LÓGICA CORRIGIDA --- #}
+                    {# Define um valor 'status_value' com base na prioridade: #}
+                    {# 1. form_data (erro no form) #}
+                    {# 2. colaborador (edição) #}
+                    {# 3. 'Ativo' (padrão) #}
+                    {% if form_data %}
+                        {% with status_value=form_data.status %}
+                            <option value="Ativo" {% if status_value == 'Ativo' %}selected{% endif %}>Ativo</option>
+                            <option value="Inativo" {% if status_value == 'Inativo' %}selected{% endif %}>Inativo</option>
+                        {% endwith %}
+                    {% elif colaborador %}
+                        {% with status_value=colaborador.status %}
+                            <option value="Ativo" {% if status_value == 'Ativo' %}selected{% endif %}>Ativo</option>
+                            <option value="Inativo" {% if status_value == 'Inativo' %}selected{% endif %}>Inativo</option>
+                        {% endwith %}
+                    {% else %}
+                        {# Padrão para um formulário novo e limpo #}
+                        <option value="Ativo" selected>Ativo</option>
+                        <option value="Inativo">Inativo</option>
+                    {% endif %}
                 </select>
             </div>
 
@@ -96,5 +124,5 @@
         </form>
     </div>
 
-# Fim do Bloco de Conteúdo Principal.
+{# Fim do Bloco de Conteúdo Principal. #}
 {% endblock %}

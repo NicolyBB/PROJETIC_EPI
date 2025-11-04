@@ -1,5 +1,5 @@
-# 1. Carregar Bibliotecas de Tags:
-# Habilita o uso das tags 'static' (necessário para {% static %}).
+{# 1. Carregar Bibliotecas de Tags: #}
+{# Habilita o uso das tags 'static' (necessário para { static }). #}
 {% load static %} 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -7,17 +7,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    # 2. Bloco de Título:
-    # Define um "espaço reservado" chamado 'title'. Templates filhos 
-    # (como index.html) podem substituir o conteúdo deste bloco 
-    # para definir o título específico da página. Se nenhum filho 
-    # o substituir, o texto padrão "Sistema EPI" será usado.
+    {# 2. Bloco de Título: #}
+    {# Define um "espaço reservado" chamado 'title'. Templates filhos #}
+    {# (como index.html) podem substituir o conteúdo deste bloco #}
+    {# para definir o título específico da página. Se nenhum filho #}
+    {# o substituir, o texto padrão "Sistema EPI" será usado. #}
     <title>{% block title %}Sistema EPI{% endblock %}</title>
     
-    # 3. Tag Static:
-    # Gera a URL correta para o arquivo 'style.css' localizado na 
-    # pasta 'static' configurada no settings.py. É a forma correta 
-    # de linkar arquivos estáticos no Django.
+    {# 3. Tag Static: #}
+    {# Gera a URL correta para o arquivo 'style.css' localizado na #}
+    {# pasta 'static' configurada no settings.py. É a forma correta #}
+    {# de linkar arquivos estáticos no Django. #}
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
@@ -37,18 +37,18 @@
                 </div>
             <nav class="sidebar-nav">
                 <ul>
-                    # 4. Tag {% if %}: Condicional simples.
-                    # Verifica se o *nome* da URL atual (obtido via 'request.resolver_match.url_name') 
-                    # é igual a 'index'. Se for verdadeiro, adiciona a classe CSS 'active' 
-                    # ao <li>, permitindo estilizar o link da página atual.
+                    {# 4. Tag { if }: Condicional simples. #}
+                    {# Verifica se o *nome* da URL atual (obtido via 'request.resolver_match.url_name') #}
+                    {# é igual a 'index'. Se for verdadeiro, adiciona a classe CSS 'active' #}
+                    {# ao <li>, permitindo estilizar o link da página atual. #}
                     <li class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">
-                        # 5. Tag {% url %}: Gera a URL para a view com nome 'index'.
+                        {# 5. Tag { url %}: Gera a URL para a view com nome 'index'. #}
                         <a href="{% url 'index' %}">
                             <svg class="icon"><use href="#icon-dashboard"></use></svg>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    # Faz o mesmo para o link 'cadastro'.
+                    {# Faz o mesmo para o link 'cadastro'. #}
                     <li class="{% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}">
                         <a href="{% url 'cadastro' %}">
                             <svg class="icon"><use href="#icon-users-group"></use></svg>
@@ -63,17 +63,17 @@
 
         <main class="content">
             
-            # 6. Bloco de Conteúdo Principal:
-            # Define o "espaço reservado" principal chamado 'content'. 
-            # Templates filhos (como index.html, cadastro.html) colocarão 
-            # seu conteúdo específico aqui, substituindo este bloco.
+            {# 6. Bloco de Conteúdo Principal: #}
+            {# Define o "espaço reservado" principal chamado 'content'. #}
+            {# Templates filhos (como index.html, cadastro.html) colocarão #}
+            {# seu conteúdo específico aqui, substituindo este bloco. #}
             {% block content %}
             {% endblock %}
 
         </main>
     </div>
 
-    # Link para o arquivo JavaScript usando a tag {% static %}.
+    {# Link para o arquivo JavaScript usando a tag { static }. #}
     <script src="{% static 'script.js' %}"></script>
 
 </body>
