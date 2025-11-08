@@ -1,25 +1,14 @@
-# Importa o módulo 'models' do Django, que contém as classes e funções 
-# necessárias para definir modelos de banco de dados.
 from django.db import models
 
-# Define uma nova classe chamada 'Colaborador'.
-# Herdar de 'models.Model' transforma esta classe Python comum 
-# em um Modelo Django, que o ORM (Object-Relational Mapper) do Django usará 
-# para interagir com a tabela correspondente no banco de dados 
-# (por padrão, a tabela será nomeada 'colaboradores_colaborador').
 class Colaborador(models.Model):
-    # Define um campo chamado 'nome_completo' no modelo.
-    # models.CharField cria uma coluna do tipo VARCHAR no banco de dados.
-    #   - max_length=150: Define o tamanho máximo da string que pode ser armazenada 
-    #     nesta coluna (obrigatório para CharField).
+
     nome_completo = models.CharField(max_length=150)
     
-    # Define um campo 'cpf'.
-    # models.CharField armazena o CPF como texto.
-    #   - max_length=11: Define o tamanho (considerando que salvamos o CPF sem pontos/traço).
+    # Define um campo 'matricula'.
+    # models.CharField armazena o matricula como texto.
     #   - unique=True: [IMPORTANTE] Garante que não possam existir dois colaboradores 
-    #     com o mesmo CPF no banco de dados. O banco aplicará uma restrição UNIQUE.
-    cpf = models.CharField(max_length=11, unique=True)
+    #     com o mesmo matricula no banco de dados. O banco aplicará uma restrição UNIQUE.
+    matricula = models.CharField(unique=True)
     
     # Define um campo 'funcao'.
     # models.CharField para armazenar a função/cargo do colaborador.

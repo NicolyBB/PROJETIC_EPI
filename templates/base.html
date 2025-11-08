@@ -8,8 +8,6 @@
     <title>{% block title %}Sistema EPI{% endblock %}</title>
     
     <link rel="stylesheet" href="{% static 'style.css' %}">
-
-
 </head>
 <body>
 
@@ -17,21 +15,34 @@
         <defs>
             <symbol id="icon-factory" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7-6-7 6v12Z"/>
-                <path d="M12 18v-6"/>
-                <path d="M12 8L4 4"/>
-                <path d="M12 8l8-4"/>
-                <path d="M16 4l-4 4-4-4"/>
+                <path d="M12 18v-6"/><path d="M12 8L4 4"/><path d="M12 8l8-4"/><path d="M16 4l-4 4-4-4"/>
             </symbol>
             <symbol id="icon-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="14" y="14" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
+                <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect>
             </symbol>
             <symbol id="icon-users-group" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="8.5" cy="7" r="4"></circle>
-                <path d="M20 8v6M23 11h-6"></path>
+                <circle cx="8.5" cy="7" r="4"></circle><path d="M20 8v6M23 11h-6"></path>
+            </symbol>
+            
+            <symbol id="icon-plus-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line>
+            </symbol>
+            <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+            </symbol>
+            <symbol id="icon-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline>
+            </symbol>
+            
+            <symbol id="icon-helmet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a9 9 0 0 0-9 9c0 4.23 2.2 7.89 5.48 9.75a1 1 0 0 0 1.04 0C13.8 19.64 16 16.23 16 12a4 4 0 0 0-4-4 4 4 0 0 0-4 4c0 3.86 3.58 9.75 8 9.75a9 9 0 0 0 5-17.75A9 9 0 0 0 12 2Z"></path>
+            </symbol>
+            <symbol id="icon-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
             </symbol>
         </defs>
     </svg>
@@ -52,19 +63,35 @@
                 <ul>
                     <li class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">
                         <a href="{% url 'index' %}">
-                            <svg class="icon"><use href="#icon-dashboard"></use></svg>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="{% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}">
-                        <a href="{% url 'cadastro' %}">
                             <svg class="icon"><use href="#icon-users-group"></use></svg>
                             <span>Colaboradores</span>
                         </a>
                     </li>
-                    </ul>
+    
+                    <li class="{% if request.resolver_match.url_name == 'cadastro' %}active{% endif %}">
+                        <a href="{% url 'cadastro' %}">
+                            <svg class="icon"><use href="#icon-plus-circle"></use></svg>
+                            <span>Cadastrar Colaborador</span>
+                        </a>
+                    </li>
+    
+                    <li class="separator">
+                        <span>EPIs</span>
+                    </li>
+                    
+                    <li>
+                        <a href="#"> <svg class="icon"><use href="#icon-helmet"></use></svg>
+                            <span>Controle de EPI</span>
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a href="#"> <svg class="icon"><use href="#icon-clipboard"></use></svg>
+                            <span>Relatório de Empréstimos</span>
+                        </a>
+                    </li>
+                </ul>
             </nav>
-
             <div class="user-menu-dropdown" id="user-menu">
                 <a href="#">Configurações de Perfil</a>
                 <a href="#">Trocar Senha</a>

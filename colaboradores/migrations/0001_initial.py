@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("nome_completo", models.CharField(max_length=150)),
-                ("cpf", models.CharField(max_length=11, unique=True)),
+                ("matricula", models.CharField(max_length=11, unique=True)),
                 ("funcao", models.CharField(max_length=50)),
                 (
                     "status",

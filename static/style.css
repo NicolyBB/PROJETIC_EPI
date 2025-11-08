@@ -1,446 +1,317 @@
 /* --- Configurações Globais --- */
 
 * {
-    /*Garante que padding e border sejam incluídos na largura/altura total 
-      do elemento, em vez de adicionados externamente. Facilita o layout.
-    */
     box-sizing: border-box; 
-    /* Remove margens e espaçamentos internos padrão do navegador */
     margin: 0;
     padding: 0;
 }
 
-/* Garante que o HTML e o BODY ocupem toda a altura da viewport */
 html, body {
     height: 100%;
 }
 
 body {
-    /* Define uma pilha de fontes padrão, começando pela fonte do sistema Apple */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    /* Define a cor de fundo principal (cinza claro, 60% da paleta) */
     background-color: #F4F7F9; 
-    /* Define a cor padrão do texto */
     color: #1A202C;
-    /* [BOA PRÁTICA] Usa Flexbox para layout. Torna o body um container flex, 
-      organizando seus filhos diretos (neste caso, o '.container') em linha por padrão.
-    */
     display: flex;
-    /* Garante que o body ocupe pelo menos a altura inteira da tela */
     min-height: 100vh; 
 }
 
-/* Container principal que envolve a sidebar e o conteúdo */
 .container {
-    display: flex; /* Organiza a sidebar e o content lado a lado */
-    width: 100%; /* Ocupa toda a largura disponível */
-    min-height: 100%; /* Ocupa pelo menos toda a altura disponível */
+    display: flex;
+    width: 100%;
+    min-height: 100%;
 }
 
 /* --- Ícones SVG --- */
-/* Classe genérica para ícones */
 .icon {
-    width: 20px; /* Largura padrão */
-    height: 20px; /* Altura padrão */
-    /* 'stroke: currentColor' faz a linha (stroke) do SVG herdar a cor do texto 
-      do elemento pai. Muito útil para ícones que mudam de cor com o texto.
-    */
+    width: 20px;
+    height: 20px;
     stroke: currentColor; 
-    fill: none; /* Garante que o interior do ícone não seja preenchido com cor */
-    stroke-width: 2; /* Espessura da linha do ícone */
-    vertical-align: middle; /* Alinha o ícone verticalmente com o texto ao redor */
-    margin-right: 12px; /* Espaço à direita do ícone */
+    fill: none;
+    stroke-width: 2;
+    vertical-align: middle;
+    margin-right: 12px;
 }
-
-/* Classe para ícones maiores, usada no cabeçalho do formulário */
 .icon-large {
     width: 24px;
     height: 24px;
     margin-right: 12px;
-    stroke: #1E6043; /* Cor específica (verde escuro) */
+    stroke: #1E6043;
 }
-
-/* Classe para o ícone de perfil na sidebar */
 .icon-profile {
      width: 24px;
      height: 24px;
      margin-right: 12px;
 }
 
-/* --- Barra Lateral (Sidebar - Cor 30%) --- */
+/* --- Barra Lateral (Sidebar) --- */
 .sidebar {
-    width: 260px; /* Largura fixa da sidebar */
-    background-color: #1E6043; /* Cor de fundo (Verde Escuro, 30% da paleta) */
-    color: #FFFFFF; /* Cor do texto (branco) */
-    display: flex; /* Usa Flexbox para organizar os itens internos (header, nav, footer) */
-    flex-direction: column; /* Organiza os itens internos verticalmente */
-    /* Impede que a sidebar encolha se o conteúdo principal for muito largo */
+    width: 260px;
+    background-color: #1E6043;
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
     flex-shrink: 0; 
-    height: 100vh; /* Ocupa 100% da altura da viewport (tela) */
-    /* 'position: sticky' faz a sidebar rolar com a página até atingir o topo (top: 0), 
-      depois fica fixa enquanto o resto do conteúdo rola.
-    */
+    height: 100vh;
     position: sticky; 
-    top: 0; /* Define o ponto onde a sidebar deve "grudar" */
+    top: 0;
 }
-
-/* Cabeçalho da Sidebar (Logo/Título) */
 .sidebar-header {
-    padding: 24px; /* Espaçamento interno */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória sutil */
-    display: flex; /* Alinha o ícone e o texto lado a lado */
-    align-items: center; /* Alinha verticalmente o ícone e o texto */
+    padding: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
 }
-
-/* Estilo específico para o ícone no cabeçalho da sidebar */
 .sidebar-header .icon {
     width: 24px;
     height: 24px;
-    stroke: #FF8C00; /* Cor de destaque (Laranja, 10% da paleta) */
+    stroke: #FF8C00;
 }
-
-/* Estilos para o texto no cabeçalho da sidebar */
 .sidebar-header-text h3 {
     margin: 0;
     font-size: 1.1rem;
 }
 .sidebar-header-text span {
     font-size: 0.875rem;
-    color: #A0AEC0; /* Cinza claro para o subtítulo */
+    color: #A0AEC0;
 }
 
 /* Navegação Principal da Sidebar */
 .sidebar-nav {
-    /* Ocupa todo o espaço vertical restante entre o header e o footer */
     flex: 1; 
-    padding: 16px 0; /* Espaçamento vertical */
+    padding: 16px 0;
 }
 .sidebar-nav ul {
-    list-style: none; /* Remove os marcadores de lista (bolinhas) */
+    list-style: none;
 }
-.sidebar-nav li a { /* Estilo dos links de navegação */
-    display: flex; /* Alinha o ícone e o texto do link */
-    align-items: center; /* Alinha verticalmente */
-    padding: 14px 24px; /* Espaçamento interno */
-    text-decoration: none; /* Remove o sublinhado padrão dos links */
-    color: #E2E8F0; /* Cor do texto (cinza claro) */
-    font-weight: 500; /* Peso da fonte */
-    /* Borda esquerda transparente (será colorida no item ativo) */
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 14px 24px;
+    text-decoration: none;
+    color: #E2E8F0;
+    font-weight: 500;
     border-left: 4px solid transparent; 
-    /* Transição suave para efeitos :hover e .active */
     transition: background-color 0.2s, color 0.2s; 
 }
-/* Efeito ao passar o mouse sobre o link */
 .sidebar-nav li a:hover {
-    background-color: rgba(255, 255, 255, 0.05); /* Fundo levemente mais claro */
-    color: #FFF; /* Texto branco */
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #FFF;
 }
-/* Estilo para o item de menu ATIVO (página atual) */
 .sidebar-nav li.active a {
-    background-color: rgba(255, 255, 255, 0.1); /* Fundo um pouco mais claro */
-    color: #FFFFFF; /* Texto branco */
-    font-weight: 600; /* Fonte mais forte */
-    border-left: 4px solid #FF8C00; /* Borda laranja de destaque */
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    font-weight: 600;
+    border-left: 4px solid #FF8C00;
 }
 
 /* Rodapé da Sidebar (Informações do Usuário) */
 .sidebar-footer {
     padding: 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória sutil */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.875rem;
-    display: flex; /* Alinha o ícone e as informações do usuário */
-    align-items: center; /* Alinha verticalmente */
+    display: flex;
+    align-items: center;
 }
 .sidebar-footer strong {
-    display: block; /* Faz o nome ocupar uma linha */
+    display: block;
 }
 .sidebar-footer span {
-    color: #718096; /* Cinza para o status "Online" */
+    color: #718096;
 }
 
-/* --- ESTILOS NOVOS PARA O MENU DO USUÁRIO --- */
-
-/* Foto do perfil no rodapé */
+/* --- Menu do Usuário (Dropdown) --- */
 .footer-profile-pic {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 12px;
     object-fit: cover;
-    border: 2px solid #FF8C00; /* Destaque laranja da paleta */
+    border: 2px solid #FF8C00;
 }
-
-/* Torna o footer clicável */
 .sidebar-footer {
     cursor: pointer;
-    /* position: relative; é necessário para o menu dropdown */
     position: relative; 
     transition: background-color 0.2s;
 }
 .sidebar-footer:hover {
-    background-color: rgba(255, 255, 255, 0.05); /* Mesmo hover dos links */
+    background-color: rgba(255, 255, 255, 0.05);
 }
-
-/* Pega a div com as infos de texto para ocupar o espaço */
 .sidebar-footer .user-info {
     flex: 1;
 }
-
-/* O menu dropdown de configurações */
 .user-menu-dropdown {
-    display: none; /* Escondido por padrão */
-    position: absolute; /* Posição flutuante */
-    bottom: 95px; /* Posição acima do rodapé (altura do footer + espaço) */
-    left: 16px; /* Alinhado com o padding da sidebar */
-    width: 228px; /* Largura (260px - 2*16px de padding) */
-    background-color: #FFFFFF; /* Fundo branco */
+    display: none;
+    position: absolute;
+    bottom: 95px;
+    left: 16px;
+    width: 228px;
+    background-color: #FFFFFF;
     border-radius: 8px;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1); /* Sombra para cima */
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     border: 1px solid #E2E8F0;
     overflow: hidden;
 }
-
-/* Classe .show é adicionada via JS para mostrar o menu */
 .user-menu-dropdown.show {
     display: block;
 }
-
-/* Links dentro do dropdown */
 .user-menu-dropdown a {
     display: block;
     padding: 12px 20px;
     text-decoration: none;
-    color: #2D3748; /* Cinza escuro */
+    color: #2D3748;
     font-size: 0.9rem;
     font-weight: 500;
 }
 .user-menu-dropdown a:hover {
-    background-color: #F4F7F9; /* Cinza claro no hover */
-    color: #1E6043; /* Verde no hover */
+    background-color: #F4F7F9;
+    color: #1E6043;
 }
 
-/* --- Conteúdo Principal (Cor 60%) --- */
+/* --- Conteúdo Principal --- */
 .content {
-    /* Ocupa todo o espaço horizontal restante ao lado da sidebar */
     flex: 1; 
-    padding: 40px; /* Espaçamento interno amplo */
-    /* Adiciona uma barra de rolagem vertical se o conteúdo exceder a altura */
+    padding: 40px;
     overflow-y: auto; 
 }
-
-/* Título principal H1 dentro do conteúdo */
 .content h1 {
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 24px; /* Espaço abaixo do título */
-    color: #2D3748; /* Cinza escuro */
+    margin-bottom: 24px;
+    color: #2D3748;
 }
 
-/* Card Branco (usado para formulários e listas) */
+/* Card Branco (Formulários e Listas) */
 .form-card {
-    background-color: #FFFFFF; /* Fundo branco */
-    border-radius: 8px; /* Cantos arredondados */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra sutil */
-    padding: 32px; /* Espaçamento interno */
-    max-width: 800px; /* Largura máxima (para formulários não ficarem muito largos) */
-    /* Para centralizar o card (se necessário, junto com margin: 0 auto;) */
-    /* margin: 0 auto; */ 
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 32px;
+    /* (Removido max-width: 800px para a lista) */
 }
-
-/* Cabeçalho dentro do card (ex: "Cadastrar Novo Colaborador") */
 .form-header {
-    display: flex; /* Alinha o ícone e o título H2 */
-    align-items: center; /* Alinha verticalmente */
-    margin-bottom: 32px; /* Espaço abaixo */
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
 }
 .form-header h2 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #1A202C; /* Preto */
+    color: #1A202C;
 }
 
-/* Agrupador de Label + Input no formulário */
+/* Grupos de Formulário */
 .form-group {
-    margin-bottom: 24px; /* Espaço entre os campos */
+    margin-bottom: 24px;
 }
 .form-group label {
-    display: block; /* Faz o label ocupar a linha inteira */
-    font-weight: 600; /* Fonte mais forte */
-    margin-bottom: 8px; /* Espaço abaixo do label */
-    font-size: 0.875rem; /* Tamanho da fonte */
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
 }
-/* Estilo para o asterisco (*) de campo obrigatório */
 .form-group .required {
-    color: #E53E3E; /* Vermelho */
+    color: #E53E3E;
 }
 
-/* Estilo padrão para campos de texto e selects */
+/* Inputs e Selects */
 .form-group input[type="text"],
 .form-group select {
-    width: 100%; /* Ocupa toda a largura disponível */
-    padding: 12px; /* Espaçamento interno */
-    border: 1px solid #CBD5E0; /* Borda cinza */
-    border-radius: 6px; /* Cantos arredondados */
-    font-size: 1rem; /* Tamanho da fonte */
-    background-color: #FFFFFF; /* Fundo branco */
-    /* Transição suave para o efeito :focus */
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #CBD5E0;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #FFFFFF;
     transition: border-color 0.2s, box-shadow 0.2s; 
 }
-/* Efeito visual quando o campo está em foco (selecionado) */
 .form-group input[type="text"]:focus,
 .form-group select:focus {
-    outline: none; /* Remove a borda padrão do navegador */
-    border-color: #1E6043; /* Borda verde (cor da marca) */
-    /* Sombra interna sutil para indicar foco */
+    outline: none;
+    border-color: #1E6043;
     box-shadow: 0 0 0 2px rgba(30, 96, 67, 0.2); 
 }
-/* Cor do texto placeholder (texto de dica dentro do input) */
 .form-group input::placeholder {
-    color: #A0AEC0; /* Cinza claro */
+    color: #A0AEC0;
 }
-
-/* Estilos específicos para o <select> */
 .form-group select {
-     color: #1A202C; /* Garante que o texto seja escuro */
+     color: #1A202C;
 }
-/* Estilo para quando o select tem uma opção inválida/placeholder selecionada */
 .form-group select:invalid {
-    color: #A0AEC0; /* Cinza claro */
+    color: #A0AEC0;
 }
-/* Cor do texto das opções dentro do select */
 .form-group option {
-    color: #1A202C; /* Preto */
+    color: #1A202C;
 }
 
-
-/* Container para os botões de ação do formulário */
+/* Ações do Formulário (Botões) */
 .form-actions {
-    text-align: right; /* Alinha o conteúdo (botão) à direita */
-    margin-top: 32px; /* Espaço acima dos botões */
+    text-align: right;
+    margin-top: 32px;
 }
 
-/* Estilo do Botão Principal (Salvar - Cor 10%) */
+/* Botão Principal (Submit) */
 .btn-submit {
-    background-color: #FF8C00; /* Laranja (10% da paleta) */
-    color: #FFFFFF; /* Texto branco */
-    font-weight: 700; /* Fonte forte */
-    font-size: 1rem; /* Tamanho da fonte */
-    border: none; /* Sem borda */
-    padding: 12px 24px; /* Espaçamento interno */
-    border-radius: 6px; /* Cantos arredondados */
-    cursor: pointer; /* Muda o cursor para indicar clicabilidade */
-    /* Transição suave para efeitos :hover e :active */
+    background-color: #FF8C00;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
     transition: background-color 0.2s, transform 0.1s; 
-    /* Permite alinhar o ícone interno com o texto */
     display: inline-flex; 
     align-items: center; 
+    text-decoration: none; /* Adicionado para links <a> */
 }
-
-/* Estilo do ícone dentro do botão principal */
 .btn-submit .icon {
      width: 18px;
      height: 18px;
-     stroke: #FFF; /* Linha branca */
-     margin-right: 8px; /* Espaço entre ícone e texto */
+     stroke: #FFF;
+     margin-right: 8px;
 }
-
-/* Efeito ao passar o mouse sobre o botão */
 .btn-submit:hover {
-    background-color: #D97706; /* Laranja mais escuro */
+    background-color: #D97706;
 }
-/* Efeito ao clicar no botão */
 .btn-submit:active {
-    transform: scale(0.98); /* Leve encolhimento */
+    transform: scale(0.98);
 }
 
-/* Alerta de Sucesso (Controlado via JavaScript) */
-#alert-success {
-    display: none; /* Começa escondido */
-    padding: 12px;
-    background-color: #C6F6D5; /* Fundo verde claro */
-    color: #22543D; /* Texto verde escuro */
-    border: 1px solid #9AE6B4; /* Borda verde */
-    border-radius: 6px; /* Cantos arredondados */
-    margin-top: 20px; /* Espaço acima */
-    text-align: center; /* Centraliza o texto */
+/* Alertas de Mensagem (Django Messages) */
+.messages {
+    margin-bottom: 20px;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.alert-error, .alert-danger { /* 'danger' é o tag do Django */
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
 }
 
-/* --- Media Query: Estilos para Telas Menores (Responsividade) --- */
-/* Aplica estas regras quando a largura da tela for 768px ou menor */
-@media (max-width: 768px) {
-    /* Muda o layout principal para coluna (sidebar em cima, conteúdo embaixo) */
-    .container {
-        flex-direction: column;
-    }
-    /* Adapta a sidebar para virar uma barra de topo */
-    .sidebar {
-        width: 100%; /* Ocupa toda a largura */
-        height: auto; /* Altura automática */
-        position: static; /* Remove o 'sticky' */
-        flex-direction: row; /* Itens internos (logo, nav) lado a lado */
-        justify-content: space-between; /* Espaça o logo e a nav */
-        align-items: center; /* Alinha verticalmente */
-    }
-    /* Adapta a navegação para ficar horizontal */
-    .sidebar-nav {
-        display: flex;
-        padding: 0;
-    }
-    .sidebar-nav ul {
-        display: flex; /* Links lado a lado */
-    }
-    .sidebar-nav li a {
-        padding: 16px; /* Ajusta o padding */
-        border-left: none; /* Remove a borda esquerda */
-        border-bottom: 4px solid transparent; /* Adiciona borda inferior transparente */
-    }
-    /* Estilo do item ativo na barra de topo */
-    .sidebar-nav li.active a {
-        border-left: none; /* Remove borda esquerda */
-        border-bottom: 4px solid #FF8C00; /* Adiciona borda inferior laranja */
-    }
-    /* Esconde o texto dos links na barra de topo, mostrando só os ícones */
-    .sidebar-nav span {
-        display: none;
-    }
-    /* Remove a margem do ícone quando o texto está escondido */
-     .sidebar-nav li a .icon {
-         margin-right: 0;
-     }
-    /* Ajustes no cabeçalho da sidebar (agora barra de topo) */
-    .sidebar-header {
-        border-bottom: none; /* Remove a linha divisória */
-        padding: 16px; /* Ajusta o padding */
-    }
-    /* Esconde o perfil do usuário na barra de topo */
-    .sidebar-footer {
-        display: none; 
-    }
-    
-    /* Ajustes no conteúdo principal em telas menores */
-    .content {
-        padding: 20px; /* Reduz o padding */
-    }
-    .content h1 {
-        font-size: 1.5rem; /* Reduz o tamanho do título */
-    }
-    .form-card {
-        padding: 20px; /* Reduz o padding do card */
-        max-width: none; /* Remove a largura máxima */
-    }
-} /* Fim da Media Query */
 
-/* --- ESTILOS ADICIONAIS DA DASHBOARD (LISTA) --- */
-
-/* Cabeçalho da Página (Título H1 + Botão Novo Colaborador) */
+/* --- Estilos da Lista (index.html) --- */
 .page-header {
-    display: flex; /* Coloca H1 e botão lado a lado */
-    justify-content: space-between; /* Empurra um para cada lado */
-    align-items: center; /* Alinha verticalmente */
-    margin-bottom: 24px; /* Espaço abaixo */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
 }
-/* Garante alinhamento do ícone dentro do botão no cabeçalho */
 .page-header .btn-submit {
     display: inline-flex;
     align-items: center;
@@ -451,43 +322,36 @@ body {
     stroke: #FFF;
     margin-right: 8px;
 }
-
-/* Grade dos Cards de Estatística */
 .stats-grid {
-    display: grid; /* Usa CSS Grid para layout */
-    /* Cria 3 colunas de largura igual (1fr = 1 fração do espaço disponível) */
+    display: grid;
     grid-template-columns: repeat(3, 1fr); 
-    gap: 24px; /* Espaço entre os cards */
-    margin-bottom: 32px; /* Espaço abaixo da grade */
+    gap: 24px;
+    margin-bottom: 32px;
 }
-/* Estilo individual de cada Card de Estatística */
 .stat-card {
-    background-color: #FFFFFF; /* Fundo branco */
-    border-radius: 8px; /* Cantos arredondados */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra sutil */
-    padding: 24px; /* Espaçamento interno */
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 24px;
 }
-/* Título do Card (ex: "Total de Colaboradores") */
 .stat-card h4 {
-    font-size: 0.875rem; /* Tamanho pequeno */
-    color: #718096; /* Cinza */
-    font-weight: 600; /* Meio negrito */
-    margin-bottom: 8px; /* Espaço abaixo */
-    text-transform: uppercase; /* Texto em maiúsculas */
+    font-size: 0.875rem;
+    color: #718096;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
 }
-/* Valor numérico no Card */
 .stat-card .value {
-    font-size: 2.25rem; /* Tamanho grande */
-    font-weight: 700; /* Negrito */
-    color: #1A202C; /* Preto */
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1A202C;
 }
 
-/* Barra de Pesquisa acima da tabela */
+/* Barra de Pesquisa */
 .search-bar {
-    margin-bottom: 24px; /* Espaço abaixo */
+    margin-bottom: 24px;
 }
 .search-bar input {
-    /* Reutiliza o estilo dos inputs do formulário principal */
     width: 100%;
     padding: 12px 16px;
     border: 1px solid #CBD5E0;
@@ -495,88 +359,234 @@ body {
     font-size: 1rem;
     background-color: #FFFFFF;
 }
-/* Efeito de foco na barra de pesquisa */
 .search-bar input:focus {
     outline: none;
-    border-color: #1E6043; /* Borda verde */
-    box-shadow: 0 0 0 2px rgba(30, 96, 67, 0.2); /* Sombra interna */
+    border-color: #1E6043;
+    box-shadow: 0 0 0 2px rgba(30, 96, 67, 0.2);
 }
 
-/* Container da Tabela (para rolagem horizontal) */
+/* Tabela de Dados */
 .table-container {
-    width: 100%; /* Ocupa toda a largura do card */
-    /* Adiciona barra de rolagem horizontal se a tabela for mais larga que o container */
+    width: 100%;
     overflow-x: auto; 
 }
-/* Estilos da Tabela de Dados */
 .data-table {
-    width: 100%; /* Faz a tabela ocupar toda a largura do container */
-    /* Remove o espaçamento padrão entre as células da tabela */
+    width: 100%;
     border-collapse: collapse; 
-    text-align: left; /* Alinha o texto à esquerda por padrão */
+    text-align: left;
 }
-/* Estilo do Cabeçalho da Tabela (<th>) */
 .data-table th {
-    padding: 16px; /* Espaçamento interno */
-    font-size: 0.875rem; /* Tamanho pequeno */
-    text-transform: uppercase; /* Maiúsculas */
-    letter-spacing: 0.5px; /* Espaçamento entre letras */
-    color: #718096; /* Cinza */
-    /* Linha cinza grossa abaixo do cabeçalho */
+    padding: 16px;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #718096;
     border-bottom: 2px solid #E2E8F0; 
 }
-/* Estilo das Células da Tabela (<td>) */
 .data-table td {
-    padding: 16px; /* Espaçamento interno */
-    font-size: 0.95rem; /* Tamanho da fonte */
-    color: #2D3748; /* Cinza escuro */
-    /* Linha cinza fina abaixo de cada linha de dados */
+    padding: 16px;
+    font-size: 0.95rem;
+    color: #2D3748;
     border-bottom: 1px solid #E2E8F0; 
 }
-/* Remove a borda inferior da ÚLTIMA linha da tabela */
 .data-table tbody tr:last-child td {
     border-bottom: none;
 }
-/* Estilo específico para a coluna de "Ações" */
 .data-table .actions {
-    text-align: right; /* Alinha os links à direita */
+    text-align: right;
 }
-/* Estilo dos Links de Ação (Editar/Excluir) dentro da coluna */
 .data-table .actions a {
-    margin-left: 12px; /* Espaço à esquerda de cada link */
-    text-decoration: none; /* Remove sublinhado */
-    font-weight: 600; /* Meio negrito */
-    color: #1E6043; /* Verde */
+    margin-left: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #1E6043;
 }
-/* Efeito ao passar o mouse sobre os links de ação */
 .data-table .actions a:hover {
-    text-decoration: underline; /* Adiciona sublinhado */
+    text-decoration: underline;
 }
 
-/* --- Estilos para Mensagens de Alerta --- */
-.messages {
-    margin-bottom: 20px;
+/* --- Media Query (Responsividade) --- */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .sidebar-nav {
+        display: flex;
+        padding: 0;
+    }
+    .sidebar-nav ul {
+        display: flex;
+    }
+    .sidebar-nav li a {
+        padding: 16px;
+        border-left: none;
+        border-bottom: 4px solid transparent;
+    }
+    .sidebar-nav li.active a {
+        border-left: none;
+        border-bottom: 4px solid #FF8C00;
+    }
+    .sidebar-nav span {
+        display: none;
+    }
+     .sidebar-nav li a .icon {
+         margin-right: 0;
+     }
+    .sidebar-header {
+        border-bottom: none;
+        padding: 16px;
+    }
+    .sidebar-footer {
+        display: none; 
+    }
+    
+    .content {
+        padding: 20px;
+    }
+    .content h1 {
+        font-size: 1.5rem;
+    }
+    .form-card {
+        padding: 20px;
+    }
+    /* Grade de Stats em telas pequenas */
+    .stats-grid {
+        grid-template-columns: 1fr; /* 1 coluna */
+    }
 }
 
-.alert {
-    padding: 15px;
-    margin-bottom: 15px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
+
+/* =========================================
+   (NOVO) ESTILOS DO MENU E MODAL
+   ========================================= */
+
+/* (NOVO) Separador do Menu Lateral */
+.sidebar-nav li.separator {
+    padding: 16px 24px 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #A0AEC0;
+    text-transform: uppercase;
 }
 
-/* Cor de erro (vermelho) */
-.alert-error {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
+/* (NOVO) Estilos do Modal de Exclusão */
+.modal-backdrop {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+.modal {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    z-index: 1001;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #E2E8F0;
+}
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    color: #A0AEC0;
+    cursor: pointer;
+}
+.modal-body {
+    padding: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #2D3748;
+}
+.modal-body p {
+    margin-bottom: 10px;
+}
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    border-top: 1px solid #E2E8F0;
+}
+.modal-footer button {
+    margin-left: 10px;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    border: none;
+}
+/* Botão Secundário (Cancelar) */
+.btn-secondary {
+    background-color: #A0AEC0;
+    color: #FFFFFF;
+}
+.btn-secondary:hover {
+    background-color: #718096;
+}
+/* Botão de Perigo (Excluir) */
+.btn-danger {
+    background-color: #E53E3E;
+    color: #FFFFFF;
+}
+.btn-danger:hover {
+    background-color: #C53030;
 }
 
-/* Cor de sucesso (verde) */
-.alert-success {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
+/* =========================================
+   (NOVO) ESTILOS DO MODAL DE FEEDBACK
+   ========================================= */
+
+/* (O modal de feedback reutiliza 90% dos estilos do modal de exclusão) */
+
+/* (NOVO) Cabeçalho de Sucesso (Verde) */
+.modal-header-success {
+    background-color: #C6F6D5; /* Fundo verde claro */
+    color: #22543D; /* Texto verde escuro */
+    border-bottom: 1px solid #9AE6B4;
+}
+.modal-header-success .modal-close {
+    color: #22543D;
+}
+
+/* (NOVO) Cabeçalho de Falha (Vermelho) */
+.modal-header-danger {
+    background-color: #FED7D7; /* Fundo vermelho claro */
+    color: #822727; /* Texto vermelho escuro */
+    border-bottom: 1px solid #FEB2B2;
+}
+.modal-header-danger .modal-close {
+    color: #822727;
+}
+
+/* (NOVO) Botão OK no rodapé do modal de feedback */
+#feedbackModal .modal-footer .btn-secondary {
+    background-color: #1E6043; /* Botão OK verde */
+    color: #FFF;
+}
+#feedbackModal .modal-footer .btn-secondary:hover {
+    background-color: #1A5338;
 }

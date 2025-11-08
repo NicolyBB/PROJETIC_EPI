@@ -1,60 +1,66 @@
-# Importa o módulo 'forms' do Django, que contém as classes e funcionalidades 
-# para criar formulários HTML e validar dados.
+# Importa o módulo 'forms' do Django
 from django import forms
-# Importa o modelo 'Colaborador' do arquivo models.py deste mesmo app (indicado pelo '.').
+# Importa o modelo 'Colaborador'
 from .models import Colaborador
 
-# Define uma nova classe chamada 'ColaboradorForm'.
-# Herdar de 'forms.ModelForm' é uma forma poderosa e conveniente de 
-# criar um formulário que está diretamente ligado a um modelo Django ('Colaborador').
-# O Django automaticamente cria os campos do formulário com base nos campos do modelo.
+# Define o formulário com base no modelo
 class ColaboradorForm(forms.ModelForm):
     
-    # A classe interna 'Meta' é usada para fornecer informações sobre o ModelForm.
+    # A classe interna 'Meta' diz ao Django como o formulário deve funcionar
     class Meta:
-        # 'model = Colaborador': Especifica qual modelo Django este formulário está associado.
+        # 1. ASSOCIAR AO MODELO
         model = Colaborador
-        # 'fields = [...]': Define quais campos do modelo 'Colaborador' devem ser incluídos 
-        # neste formulário. O Django criará automaticamente os campos HTML correspondentes 
-        # (CharField -> <input type="text">, CharField com choices -> <select>, etc.).
-        fields = ['nome_completo', 'cpf', 'funcao', 'status']
-        # Você também poderia usar 'exclude = [...]' para incluir todos os campos EXCETO alguns,
-        # ou '__all__' para incluir todos os campos do modelo.
+        
+        # 2. DEFINIR OS CAMPOS (com 'matricula' em vez de 'cpf')
+        fields = ['nome_completo', 'matricula', 'funcao', 'status']
 
-    # O método especial '__init__' é o construtor da classe. Ele é chamado quando 
-    # uma instância do ColaboradorForm é criada (ex: form = ColaboradorForm()).
-    # '*args' e '**kwargs' permitem que o construtor aceite qualquer número de 
-    # argumentos posicionais e nomeados, respectivamente.
-    def __init__(self, *args, **kwargs):
-        # 'super().__init__(*args, **kwargs)': [IMPORTANTE] Chama o construtor da classe pai 
-        # (forms.ModelForm). Isso garante que toda a inicialização padrão do ModelForm 
-        # seja executada antes do nosso código personalizado.
-        super().__init__(*args, **kwargs)
+        # 3. DEFINIR OS ATRIBUTOS HTML (Widgets)
+        #    (Este é o jeito mais limpo de fazer o que você tinha no __init__)
+        widgets = {
+            'nome_completo': forms.TextInput(attrs={
+                'id': 'nome_completo', # É melhor usar o nome do campo como ID
+                'placeholder': 'Digite o nome completo',
+                'class': 'form-control' # (Se você estivesse usando Bootstrap)
+            }),
+            'matricula': forms.TextInput(attrs={
+                'id': 'matricula', 
+                'placeholder': 'Digite a matrícula (apenas números)',
+                'inputmode': 'numeric' # Ajuda em teclados de celular
+            }),
+            'funcao': forms.TextInput(attrs={
+                'id': 'funcao', 
+                'placeholder': 'Selecione ou digite a função', 
+                'list': 'lista-funcoes' # Para autocompletar
+            }),
+            'status': forms.Select(attrs={
+                'id': 'status'
+            }),
+        }
+
+    # 4. MÉTODO DE VALIDAÇÃO PERSONALIZADA PARA A MATRÍCULA
+    #    (Este método é executado automaticamente pelo form.is_valid())
+    def clean_matricula(self):
+        # Pega o dado "cru" do campo matricula
+        matricula = self.cleaned_data.get('matricula')
         
-        # Personalização dos Widgets (Campos HTML)
-        # ========================================
-        # 'self.fields' é um dicionário que contém todos os campos definidos para este formulário.
-        # A chave é o nome do campo (ex: 'nome_completo').
-        # O valor é uma instância de um campo de formulário do Django (ex: forms.CharField).
+        # Validação 1: Garante que sejam APENAS números (sem limite de tamanho)
+        if not matricula.isdigit():
+            # Se falhar, envia este erro para o formulário
+            raise forms.ValidationError("A matrícula deve conter apenas números.")
+
+        # Validação 2: Verifica se a matrícula já existe no banco
+        # 'self.instance' é o objeto que está sendo editado (ou None se for novo)
+        queryset = Colaborador.objects.filter(matricula=matricula)
         
-        # 'self.fields['nome_completo'].widget': Acessa o "widget" associado ao campo 
-        # 'nome_completo'. O widget é o responsável por renderizar o campo como HTML 
-        # (neste caso, provavelmente um TextInput, que gera <input type="text">).
-        
-        # '.attrs': É um dicionário que contém os atributos HTML do widget (como id, class, placeholder).
-        
-        # '.update({'id': 'nome'})': Adiciona ou atualiza o atributo 'id' do widget HTML 
-        # para ser 'nome'. Isso é útil para referenciar o campo no CSS ou JavaScript, 
-        # ou para associar labels (<label for="nome">).
-        self.fields['nome_completo'].widget.attrs.update({'id': 'nome'})
-        # Faz o mesmo para o campo 'cpf', definindo seu ID HTML como 'cpf'.
-        self.fields['cpf'].widget.attrs.update({'id': 'cpf'})
-        # Define o ID HTML do campo 'funcao' como 'funcao'.
-        self.fields['funcao'].widget.attrs.update({'id': 'funcao'})
-        # Define o ID HTML do campo 'status' (que será renderizado como <select>) como 'status'.
-        self.fields['status'].widget.attrs.update({'id': 'status'})
-        
-        # [NOTA] Embora este Form não esteja sendo usado ativamente na sua view 'colaborador_novo'
-        # (que pega os dados diretamente do request.POST), ele é útil para validação automática
-        # e seria essencial se você quisesse usar a renderização de formulário do Django 
-        # com {{ form.as_p }} ou {{ form.nome_completo }}, etc., no template HTML.
+        # Se estamos editando (self.instance.pk existe), excluímos o 
+        # próprio colaborador da busca por duplicatas
+        if self.instance and self.instance.pk:
+            queryset = queryset.exclude(pk=self.instance.pk)
+            
+        # Se, mesmo assim, a busca encontrou alguém...
+        if queryset.exists():
+            # Envia este erro
+            raise forms.ValidationError("ERRO: Esta matrícula já está cadastrada.")
+
+        # Se passou em tudo, retorna o valor limpo (só números)
+        return matricula
