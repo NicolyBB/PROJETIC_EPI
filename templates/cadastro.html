@@ -1,64 +1,63 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{% if colaborador %}Editar{% else %}Cadastrar{% endif %} Colaborador{% endblock %}
+{% block title %}Cadastrar Colaborador{% endblock %}
+
 
 {% block content %}
+    
+    <div id="feedbackData" 
+         data-success-message="{{ success_message|default:'' }}"
+         data-error-message="{{ error_message|default:'' }}"
+    ></div>
 
+    
     <div class="page-header">
-        <h1>{% if colaborador %}Editar{% else %}Cadastrar{% endif %} Colaborador</h1>
-        <a href="{% url 'index' %}" class="btn-submit" style="background-color: #718096;">
+        <h1>Cadastrar Colaborador</h1>
+        
+        <a href="{% url 'index' %}" class="btn-submit" style="background-color: #718096; color: #FFF;">
             <svg class="icon"><use href="#icon-arrow-left"></use></svg>
-            Voltar para a lista
+            Voltar para Lista
         </a>
     </div>
 
     <div class="form-card">
-        <div class="form-header">
-            <svg class="icon-large"><use href="#icon-plus-circle"></use></svg>
-            <h2>{% if colaborador %}Dados do Colaborador{% else %}Novo Colaborador{% endif %}</h2>
-        </div>
         
-        <!-- ============================================= -->
-        <!-- O FORMULÁRIO (SEM AS MENSAGENS ANTIGAS) -->
-        <!-- ============================================= -->
-        <form id="colaborador-form" method="POST">
-            {% csrf_token %} 
+        <form method="POST" action="">
             
-            <!-- Campo Nome Completo -->
+            {% csrf_token %} 
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>Erro ao salvar:</strong>
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
             <div class="form-group">
-                <label for="id_nome_completo">Nome Completo <span class="required">*</span></label>
+            <label for="{{ form.nome_completo.id_for_label }}">Nome Completo <span class="required">*</span></label>
                 {{ form.nome_completo }}
             </div>
 
-            <!-- Campo Matrícula -->
             <div class="form-group">
-                <label for="id_matricula">Matrícula <span class="required">*</span></label>
+            <label for="{{ form.matricula.id_for_label }}">Matrícula <span class="required">*</span></label>
                 {{ form.matricula }}
+                {% if form.matricula.errors %}
+                    <div class="alert alert-danger" style="padding: 10px; margin-top: 10px;">
+                        {{ form.matricula.errors.as_text }}
+                    </div>
+                {% endif %}
             </div>
 
-            <!-- Campo Função -->
             <div class="form-group">
-                <label for="id_funcao">Função <span class="required">*</span></label>
+            <label for="{{ form.funcao.id_for_label }}">Função <span class="required">*</span></label>
                 {{ form.funcao }}
-                <datalist id="lista-funcoes">
-                    <option value="Almoxarife">
-                    <option value="Pedreiro">
-                    <option value="Eletricista">
-                    <option value="Mestre de Obras">
-                    <option value="Carpinteiro">
-                    <option value="Servente">
-                    <option value="Armador">
-                </datalist>
             </div>
-
-            <!-- Campo Status -->
+            
             <div class="form-group">
-                <label for="id_status">Status <span class="required">*</span></label>
+            <label for="{{ form.status.id_for_label }}">Status <span class="required">*</span></label>
                 {{ form.status }}
             </div>
 
-            <!-- Botão Salvar -->
             <div class="form-actions">
                 <button type="submit" class="btn-submit">
                     <svg class="icon"><use href="#icon-save"></use></svg>
@@ -69,27 +68,22 @@
     </div>
 
 
-    <!-- ============================================= -->
-    <!-- (NOVO) HTML DO MODAL DE FEEDBACK -->
-    <!-- ============================================= -->
-    <div class="modal-backdrop" id="feedbackModalBackdrop" style="display: none;"></div>
-    <div class="modal" id="feedbackModal" style="display: none;">
+    <div id="feedbackModalBackdrop" class="modal-backdrop" style="display: none;"></div>
+    
+    <div id="feedbackModal" class="modal" style="display: none;">
+        
         <div class="modal-header" id="feedbackModalHeader">
             <h3 id="feedbackModalTitle"></h3>
             <button class="modal-close" id="feedbackModalCloseBtn">&times;</button>
         </div>
+        
         <div class="modal-body">
             <p id="feedbackModalBody"></p>
         </div>
+        
         <div class="modal-footer">
-            <button type="button" class="btn-secondary" id="feedbackModalOkBtn">OK</button>
+            <button class="btn-secondary" id="feedbackModalOkBtn">OK</button>
         </div>
     </div>
-    
-    <!-- (NOVO) DIV SECRETA PARA PASSAR MENSAGENS DO DJANGO PARA O JS -->
-    <div id="feedbackData" 
-         data-success-message="{% for message in messages %}{% if message.tags == 'success' %}{{ message }}{% endif %}{% endfor %}"
-         data-error-message="{% if form.errors %}{% for field, errors in form.errors.items %}{{ errors.0 }}{% endfor %}{% endif %}"
-    ></div>
 
 {% endblock %}

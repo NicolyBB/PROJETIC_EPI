@@ -590,3 +590,123 @@ body {
 #feedbackModal .modal-footer .btn-secondary:hover {
     background-color: #1A5338;
 }
+
+/* =========================================
+   (NOVO) ESTILOS DO MENU V2 (Baseado na Imagem)
+   ========================================= */
+
+/* Esconde a 'ul' do menu antigo (baseado em .sidebar-nav) */
+/* (Isto pode ser removido, mas é mais seguro deixar) */
+.sidebar-nav ul {
+    display: none;
+}
+
+/* A Nova Lista de Menu */
+.sidebar-menu {
+    flex: 1; /* Faz o menu ocupar o espaço até o rodapé */
+    list-style: none;
+    padding: 16px 0;
+    margin: 0;
+}
+
+/* O Título do Grupo (ex: "COLABORADORES") */
+.sidebar-menu .menu-header {
+    padding: 16px 24px 8px 24px;
+    font-size: 0.75rem; /* 12px */
+    font-weight: 600;
+    color: #A0AEC0; /* Cinza claro (do seu tema) */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Os Links do Menu */
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 14px 24px;
+    margin: 4px 16px; /* 4px em cima/baixo, 16px dos lados */
+    text-decoration: none;
+    color: #E2E8F0; /* Texto do link (branco-cinza) */
+    font-weight: 500;
+    border-radius: 8px; /* Cantos arredondados */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+/* Ícones (Boxicons) dentro dos links */
+.sidebar-menu li a i {
+    font-size: 20px; /* Tamanho do ícone */
+    margin-right: 16px; /* Espaçamento entre ícone e texto */
+    width: 20px; /* Garante alinhamento */
+    text-align: center;
+}
+
+/* Efeito HOVER (quando passa o mouse) */
+.sidebar-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Fundo branco leve */
+    color: #FFFFFF; /* Texto branco puro */
+}
+
+/* Efeito ACTIVE (página atual) - O da sua imagem! */
+.sidebar-menu li.active a {
+    background-color: #2D8A5F; /* Verde mais claro (ajuste se precisar) */
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   (AJUSTES) Ícones do Header/Footer (para Boxicons)
+   ========================================= */
+
+/* Remove estilos de SVG e aplica a fontes de ícone */
+.icon-large, .icon-profile, .icon-arrow-toggle {
+    stroke: none;
+    line-height: 1;
+}
+
+.icon-large {
+    font-size: 28px;
+    margin-right: 12px;
+    color: #FF8C00; /* Laranja */
+}
+.icon-profile {
+    font-size: 40px;
+    margin-right: 12px;
+    color: #FF8C00; /* Laranja */
+    border-radius: 50%;
+}
+.icon-arrow-toggle {
+    font-size: 20px;
+    margin-left: auto;
+    color: #A0AEC0;
+    transition: transform 0.2s ease;
+}
+.icon-arrow-toggle.rotated {
+    transform: rotate(180deg);
+}
+
+/* Remove a borda laranja antiga do ícone de perfil */
+.footer-profile-pic {
+    border: none; 
+}
+
+/* === Corrige cor e sublinhado dos links do menu lateral === */
+.sidebar-menu li a,
+.sidebar-menu li a:visited {
+    color: #E2E8F0; /* mesma cor dos não visitados */
+    text-decoration: none; /* remove o sublinhado */
+}
+
+.sidebar-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.sidebar-menu li.active a,
+.sidebar-menu li.active a:visited {
+    background-color: #2D8A5F;
+    color: #FFFFFF;
+    font-weight: 600;
+    text-decoration: none;
+}

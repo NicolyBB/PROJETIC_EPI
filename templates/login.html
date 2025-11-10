@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PROJETIC EPI</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static '/home_style.css' %}">
+</head>
+<body class="login-page">
+
+    <div class="login-container">
+        <img src="{% static 'img/logo-epi.png' %}" alt="Logo EPI" class="login-logo">
+        <h2>Acesso ao Sistema</h2>
+        <p>Use suas credenciais para entrar.</p>
+
+        <form method="POST" action="{% url 'login' %}">
+            
+            {% csrf_token %}
+            
+            <div class="input-group">
+                <label for="id_username">Usuário</label>
+                <input type="text" name="username" id="id_username" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="id_password">Senha</label>
+                <input type="password" name="password" id="id_password" required>
+            </div>
+
+            {% if form.errors %}
+                <p class="error-message">Usuário ou senha incorretos. Tente novamente.</p>
+            {% endif %}
+            
+            <button type="submit" class="btn-login-main">Entrar</button>
+        </form>
+    </div>
+
+</body>
+</html>

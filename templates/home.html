@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao PROJETIC EPI</title>
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'home_style.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <header class="home-header">
+        <div class="logo-container">
+            <img src="{% static 'img/logo-epi.png' %}" alt="Logo PROJETIC EPI" class="home-logo">
+            <span>PROJETIC EPI</span>
+        </div>
+        <a href="{% url 'login' %}" class="btn-login">Acessar Sistema</a>
+    </header>
+
+    <main class="home-main">
+        
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Controle e Gestão de EPIs de forma <strong>simples e eficaz</strong>.</h1>
+                <p>Gerencie colaboradores, equipamentos e empréstimos em um só lugar. Tenha total rastreabilidade e aumente a segurança da sua equipe.</p>
+                <a href="{% url 'login' %}" class="btn-login-main">Fazer Login agora</a>
+            </div>
+            <div class="hero-image">
+                <img src="{% static 'img/home-hero-image.png' %}" alt="Trabalhador com Equipamento de Proteção">
+                </div>
+        </section>
+
+        <section class="features">
+            <h2>Uma plataforma completa</h2>
+            <p class="features-subtitle">Tudo que você precisa para gerenciar a segurança.</p>
+            <div class="features-grid">
+                <div class="card">
+                    <i class='bx bx-group'></i>
+                    <h3>Gestão de Colaboradores</h3>
+                    <p>Mantenha um cadastro atualizado de toda a sua equipe.</p>
+                </div>
+                <div class="card">
+                    <i class='bx bx-hard-hat'></i>
+                    <h3>Controle de EPIs</h3>
+                    <p>Gerencie o inventário, validades e tipos de equipamentos.</p>
+                </div>
+                <div class="card">
+                    <i class='bx bx-transfer'></i>
+                    <h3>Registro de Empréstimos</h3>
+                    <p>Saiba exatamente onde está cada item em tempo real.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="home-footer">
+        <p>© 2025 PROJETIC EPI. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>

@@ -2,16 +2,16 @@
 # ================================
 from django.shortcuts import render, redirect, get_object_or_404 
 from .models import Colaborador
-# (EDITADO) Importa o ColaboradorForm que você criou
 from .forms import ColaboradorForm
 from django.db.models import Q
 from django.contrib import messages
-# (NOVO) Importa o "segurança" que tranca a view
 from django.contrib.auth.decorators import login_required
 
-# View (Função) para a página de LISTA de Colaboradores (index.html)
 # =================================================================
-@login_required # (NOVO) Tranca esta view
+# View (Função) para a página de LISTA (index.html)
+# (ESTA FUNÇÃO ESTAVA FALTANDO NO SEU CÓDIGO)
+# =================================================================
+@login_required
 def colaborador_lista(request):
     query = request.GET.get('q', '')
     
@@ -28,44 +28,58 @@ def colaborador_lista(request):
     colaboradores_ativos = colaboradores.filter(status='Ativo').count()
     colaboradores_inativos = total_colaboradores - colaboradores_ativos
 
-    # Passa as mensagens (para o modal de feedback de Edição/Exclusão)
     context = {
         'colaboradores_lista': colaboradores,
         'total_colaboradores': total_colaboradores,
         'colaboradores_ativos': colaboradores_ativos,
         'colaboradores_inativos': colaboradores_inativos,
         'search_query': query,
-        'messages': messages.get_messages(request) # Passa as mensagens para o template
+        'messages': messages.get_messages(request) # Para os modais de exclusão/edição
     }
     return render(request, 'index.html', context)
 
 
-# View (Função) para a página de CADASTRO de Colaboradores (cadastro.html)
 # ======================================================================
-@login_required # (NOVO) Tranca esta view
+# View (Função) para a página de CADASTRO (cadastro.html)
+# (Esta é a sua nova view, que usa o script.js)
+# ======================================================================
+@login_required 
 def colaborador_novo(request):
+    # Define o contexto inicial. Sempre teremos um form.
+    context = {'form': ColaboradorForm()}
+
     if request.method == 'POST':
         form = ColaboradorForm(request.POST)
-        if form.is_valid(): # O form.is_valid() chama o clean_matricula
+        if form.is_valid():
             form.save()
             
-            # Prepara um novo form vazio e envia a flag de sucesso
-            form_vazio = ColaboradorForm()
-            return render(request, 'cadastro.html', {
-                'form': form_vazio,
-                'cadastro_sucesso': True # Para o seu modal de sucesso
-            })
-        # Se for inválido, o form com os erros é passado abaixo
-    else:
-        form = ColaboradorForm() # Cria um form vazio
+            # --- SUCESSO ---
+            # Envia a mensagem de sucesso que o seu JS 'setupFeedbackModal' espera
+            context['success_message'] = "Colaborador cadastrado com sucesso!"
+            # (Envia um form limpo para a página)
+            context['form'] = ColaboradorForm() 
+            
+        else:
+            # --- ERRO ---
+            # Se o form for inválido (ex: matrícula duplicada), envia a mensagem de erro
+            if form.errors:
+                # Pega o primeiro erro (ex: 'Esta matrícula já está cadastrada.')
+                first_error = next(iter(form.errors.values()))[0]
+                context['error_message'] = f"ERRO: {first_error}"
+            else:
+                context['error_message'] = "Erro desconhecido. Verifique os campos."
+            
+            # Envia o formulário PREENCHIDO (inválido) de volta para o usuário
+            context['form'] = form
 
-    # O 'form' (com erros ou vazio) é enviado para o template
-    return render(request, 'cadastro.html', {'form': form})
+    # Renderiza o template UMA ÚNICA VEZ, com o contexto (seja de sucesso, erro, ou novo)
+    return render(request, 'cadastro.html', context)
 
 
-# View (Função) para a página de EDIÇÃO de Colaboradores (reutiliza cadastro.html)
 # ==============================================================================
-@login_required # (NOVO) Tranca esta view
+# View (Função) para a página de EDIÇÃO (reutiliza cadastro.html)
+# ==============================================================================
+@login_required
 def colaborador_editar(request, id):
     colaborador = get_object_or_404(Colaborador, id=id)
     
@@ -85,17 +99,16 @@ def colaborador_editar(request, id):
     return render(request, 'cadastro.html', context)
 
 
+# =========================================
 # View (Função) para EXCLUIR um Colaborador
 # =========================================
-@login_required # (NOVO) Tranca esta view
+@login_required
 def colaborador_excluir(request, id):
     colaborador = get_object_or_404(Colaborador, id=id)
     
-    # Adiciona verificação de POST para segurança do modal
     if request.method == 'POST':
         nome_colaborador = colaborador.nome_completo
         colaborador.delete()
         messages.success(request, f'Colaborador "{nome_colaborador}" foi excluído.')
     
-    # Redireciona de volta para a lista em qualquer caso
     return redirect('index')
